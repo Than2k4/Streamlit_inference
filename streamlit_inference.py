@@ -14,7 +14,7 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 RTC_CONFIGURATION = RTCConfiguration(
     {
-            iceServers: [
+            "iceServers": [
           {
             "urls": "stun:stun.relay.metered.ca:80",
           },
