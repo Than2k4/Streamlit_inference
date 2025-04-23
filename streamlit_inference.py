@@ -14,31 +14,31 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 RTC_CONFIGURATION = RTCConfiguration(
     {
-            "iceServers": [
-          {
-            "urls": "stun:stun.relay.metered.ca:80",
-          },
-          {
-            "urls": "turn:global.relay.metered.ca:80",
-            "username": "8c11f3824a780a1fdd536ab0",
-            "credential": "Yvx+qhIWNV8e2KMc",
-          },
-          {
-            "urls": "turn:global.relay.metered.ca:80?transport=tcp",
-            "username": "8c11f3824a780a1fdd536ab0",
-            "credential": "Yvx+qhIWNV8e2KMc",
-          },
-          {
-            "urls": "turn:global.relay.metered.ca:443",
-            "username": "8c11f3824a780a1fdd536ab0",
-            "credential": "Yvx+qhIWNV8e2KMc",
-          },
-          {
-            "urls": "turns:global.relay.metered.ca:443?transport=tcp",
-            "username": "8c11f3824a780a1fdd536ab0",
-            "credential": "Yvx+qhIWNV8e2KMc",
-          },
-      ]
+        "iceServers": [
+              {
+                "urls": "stun:stun.relay.metered.ca:80",
+              },
+              {
+                "urls": "turn:global.relay.metered.ca:80",
+                "username": "8c11f3824a780a1fdd536ab0",
+                "credential": "Yvx+qhIWNV8e2KMc",
+              },
+              {
+                "urls": "turn:global.relay.metered.ca:80?transport=tcp",
+                "username": "8c11f3824a780a1fdd536ab0",
+                "credential": "Yvx+qhIWNV8e2KMc",
+              },
+              {
+                "urls": "turn:global.relay.metered.ca:443",
+                "username": "8c11f3824a780a1fdd536ab0",
+                "credential": "Yvx+qhIWNV8e2KMc",
+              },
+              {
+                "urls": "turns:global.relay.metered.ca:443?transport=tcp",
+                "username": "8c11f3824a780a1fdd536ab0",
+                "credential": "Yvx+qhIWNV8e2KMc",
+              },
+          ]
     }
 )
 
@@ -150,3 +150,35 @@ class Inference:
                 cap = cv2.VideoCapture("ultralytics.mp4")
 
                 if not cap.isOpened():
+                    self.st.error("Could not open video file.")
+                    return
+
+                self.st.sidebar.success("Processing uploaded video...")
+                org_frame = self.st.empty()
+                ann_frame = self.st.empty()
+
+                while cap.isOpened():
+                    success, frame = cap.read()
+                    if not success:
+                        break
+
+                    if self.enable_trk == "Yes":
+                        results = self.model.track(
+                            frame, conf=self.conf, iou=self.iou, classes=self.selected_ind, persist=True
+                        )
+                    else:
+                        results = self.model(frame, conf=self.conf, iou=self.iou, classes=self.selected_ind)
+
+                    annotated_frame = results[0].plot()
+
+                    org_frame.image(frame, channels="BGR")
+                    ann_frame.image(annotated_frame, channels="BGR")
+
+                cap.release()
+            cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    import sys
+    model = sys.argv[1] if len(sys.argv) > 1 else None
+    Inference(model=model).inference()
