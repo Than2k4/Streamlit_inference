@@ -14,29 +14,29 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 RTC_CONFIGURATION = RTCConfiguration(
     {
-        "iceServers": [
+         "iceServers": [
               {
                 "urls": "stun:stun.relay.metered.ca:80",
               },
               {
                 "urls": "turn:global.relay.metered.ca:80",
-                "username": "8c11f3824a780a1fdd536ab0",
-                "credential": "Yvx+qhIWNV8e2KMc",
+                "username": "aee8f07d5e0f1cc64014c0d5",
+                "credential": "LYdvYH8m1w3RISSO",
               },
               {
                 "urls": "turn:global.relay.metered.ca:80?transport=tcp",
-                "username": "8c11f3824a780a1fdd536ab0",
-                "credential": "Yvx+qhIWNV8e2KMc",
+                "username": "aee8f07d5e0f1cc64014c0d5",
+                "credential": "LYdvYH8m1w3RISSO",
               },
               {
                 "urls": "turn:global.relay.metered.ca:443",
-                "username": "8c11f3824a780a1fdd536ab0",
-                "credential": "Yvx+qhIWNV8e2KMc",
+                "username": "aee8f07d5e0f1cc64014c0d5",
+                "credential": "LYdvYH8m1w3RISSO",
               },
               {
                 "urls": "turns:global.relay.metered.ca:443?transport=tcp",
-                "username": "8c11f3824a780a1fdd536ab0",
-                "credential": "Yvx+qhIWNV8e2KMc",
+                "username": "aee8f07d5e0f1cc64014c0d5",
+                "credential": "LYdvYH8m1w3RISSO",
               },
           ]
     }
